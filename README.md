@@ -3,8 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)
 [![MCP](https://img.shields.io/badge/MCP-1.x-blueviolet.svg)](https://modelcontextprotocol.io)
+[![helloHQ](https://img.shields.io/badge/helloHQ-by%20everii-00B4D8.svg)](https://hellohq.io)
 
-A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for [helloHQ](https://hellohq.io) — the project management & ERP platform by everii.
+A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for [helloHQ](https://hellohq.io) — the project management & ERP platform by [everii](https://everii.com).
 
 This server connects AI assistants like **Claude** to your helloHQ instance, giving them access to projects, documents, time tracking, and more.
 
@@ -132,7 +133,7 @@ Tool call: list_projects
     "name": "Website Relaunch (Acme)",
     "number": "K-25-398",
     "projectStatus": {
-      "name": "In Bearbeitung",
+      "name": "In Progress",
       "inProgress": true
     },
     "company": {
@@ -183,7 +184,7 @@ Tool call: get_document
 User: Log 1.5 hours for task "Analytics Setup" today
 
 Tool call: create_reporting
-  name: "Analytics Properties eingerichtet, Events konfiguriert"
+  name: "Set up analytics properties and configured events"
   startOn: "2026-04-02T12:30:00"
   endOn: "2026-04-02T14:00:00"
   taskId: 96095
@@ -193,7 +194,7 @@ Tool call: create_reporting
 ```json
 {
   "id": 32355,
-  "name": "Analytics Properties eingerichtet, Events konfiguriert",
+  "name": "Set up analytics properties and configured events",
   "startOn": "2026-04-02T12:30:00Z",
   "endOn": "2026-04-02T14:00:00Z",
   "duration": 1.5,
