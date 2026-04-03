@@ -1,78 +1,57 @@
 # helloHQ MCP Server
 
-A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for [helloHQ](https://hellohq.io) — the project management & ERP platform.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org/)
+[![MCP](https://img.shields.io/badge/MCP-1.x-blueviolet.svg)](https://modelcontextprotocol.io)
 
-This server connects AI assistants (Claude, etc.) to your helloHQ instance, enabling them to read projects, documents, and time tracking data, as well as create and manage reportings.
+A [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server for [helloHQ](https://hellohq.io) — the project management & ERP platform by everii.
+
+This server connects AI assistants like **Claude** to your helloHQ instance, giving them access to projects, documents, time tracking, and more.
+
+---
 
 ## Features
 
-### Projects & Tasks
-- List and search projects with filtering
-- Read project details, members, and task plans
-- Create, update, and manage tasks
-- Set task statuses, mark tasks as done/open
+| Category | Read | Write | Tools |
+|---|:---:|:---:|---|
+| **Projects** | ✅ | — | `list_projects` `get_project` `get_project_members` `get_project_statuses` |
+| **Tasks** | ✅ | ✅ | `list_tasks` `get_project_tasks` `get_task_statuses` `create_task` `update_task` `set_task_status` `mark_task_done` `mark_task_open` |
+| **Documents** | ✅ | — | `list_documents` `get_document` `get_document_positions` `get_document_elements` `get_document_comments` `get_document_statuses` |
+| **Reportings** | ✅ | ✅ | `list_reportings` `get_reporting` `create_reporting` `update_reporting` `delete_reporting` `change_reporting_task` |
+| **Working Times** | ✅ | ✅ | `list_working_times` `create_working_time` `get_running_working_time` `start_working_time` `stop_working_time` `update_running_working_time` |
+| **Users** | ✅ | — | `list_users` `get_user` |
+| **Companies** | ✅ | — | `list_companies` `get_company` |
 
-### Documents
-- List and read documents (invoices, quotations, credit notes, delivery notes)
-- View document positions, elements, and comments
-- Filter by document type, company, project, and more
+**34 tools** total, covering the helloHQ v2 REST API.
 
-### Reportings (Time Entries)
-- List, create, update, and delete time reportings
-- Move reportings between tasks
-- Filter by user, project, date range
+---
 
-### Working Times
-- List working time entries
-- Start/stop time tracking timer
-- Create completed working time entries
-- Update running timer (change task or note)
-
-### Users & Companies
-- List and search users and companies
-- Read user and company details
-
-## Setup
+## Quick Start
 
 ### 1. Get an API Token
 
-Generate an access token in helloHQ:
-**Admin → Settings → API** → Create a new token (User Token or Sync Token).
+In helloHQ, go to **Admin → Settings → API** and create an access token:
+
+- **User Token** — respects the user's permissions (recommended)
+- **Sync Token** — system-wide access without user context
 
 ### 2. Install
 
-```bash
-npm install -g hellohq-mcp
-```
-
-Or clone and build from source:
+**From source:**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/hellohq-mcp.git
+git clone https://github.com/bm1-phillip/hellohq-mcp.git
 cd hellohq-mcp
 npm install
 npm run build
 ```
 
-### 3. Configure
+### 3. Configure your MCP Client
 
-Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+<details>
+<summary><strong>Claude Desktop</strong></summary>
 
-```json
-{
-  "mcpServers": {
-    "hellohq": {
-      "command": "node",
-      "args": ["/path/to/hellohq-mcp/dist/index.js"],
-      "env": {
-        "HELLOHQ_API_TOKEN": "your-api-token-here"
-      }
-    }
-  }
-}
-```
-
-Or for Claude Code (`~/.claude/settings.json`):
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
@@ -81,80 +60,245 @@ Or for Claude Code (`~/.claude/settings.json`):
       "command": "node",
       "args": ["/path/to/hellohq-mcp/dist/index.js"],
       "env": {
-        "HELLOHQ_API_TOKEN": "your-api-token-here"
+        "HELLOHQ_API_TOKEN": "your-api-token"
       }
     }
   }
 }
 ```
+
+</details>
+
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+```bash
+claude mcp add hellohq -s user \
+  -e HELLOHQ_API_TOKEN=your-api-token \
+  -- node /path/to/hellohq-mcp/dist/index.js
+```
+
+</details>
+
+<details>
+<summary><strong>Other MCP Clients</strong></summary>
+
+Any MCP-compatible client can use this server. Configure it as a **stdio** transport:
+
+- **Command:** `node`
+- **Args:** `["/path/to/hellohq-mcp/dist/index.js"]`
+- **Environment:** `HELLOHQ_API_TOKEN=your-api-token`
+
+</details>
 
 ### Environment Variables
 
 | Variable | Required | Description |
-|---|---|---|
-| `HELLOHQ_API_TOKEN` | Yes | API access token from helloHQ |
-| `HELLOHQ_API_URL` | No | Custom API base URL (default: `https://api.hellohq.io/v2`) |
+|---|:---:|---|
+| `HELLOHQ_API_TOKEN` | ✅ | API access token from helloHQ |
+| `HELLOHQ_API_URL` | — | Custom API base URL (default: `https://api.hellohq.io/v2`) |
 
-## Available Tools
+---
 
-| Tool | Description |
-|---|---|
-| `list_projects` | List/search projects |
-| `get_project` | Get project details |
-| `get_project_members` | Get project members |
-| `get_project_statuses` | Get available project statuses |
-| `list_tasks` | List tasks across all projects |
-| `get_project_tasks` | Get tasks for a specific project |
-| `get_task_statuses` | Get task statuses for a project |
-| `create_task` | Create a new task |
-| `update_task` | Update a task |
-| `set_task_status` | Set task status |
-| `mark_task_done` | Mark task as done |
-| `mark_task_open` | Reopen a task |
-| `list_documents` | List/search documents |
-| `get_document` | Get document with full details |
-| `get_document_positions` | Get document line items |
-| `get_document_elements` | Get document text/table elements |
-| `get_document_comments` | Get document comments |
-| `get_document_statuses` | Get available document statuses |
-| `list_reportings` | List time reportings |
-| `get_reporting` | Get reporting details |
-| `create_reporting` | Create a time reporting |
-| `update_reporting` | Update a reporting |
-| `delete_reporting` | Delete a reporting |
-| `change_reporting_task` | Move reporting to another task |
-| `list_working_times` | List working time entries |
-| `create_working_time` | Create a working time entry |
-| `get_running_working_time` | Get active timer |
-| `start_working_time` | Start time tracking |
-| `stop_working_time` | Stop time tracking |
-| `update_running_working_time` | Update running timer |
-| `list_users` | List users |
-| `get_user` | Get user details |
-| `list_companies` | List companies |
-| `get_company` | Get company details |
+## Usage Examples
+
+Once configured, you can ask your AI assistant things like:
+
+> "Show me all active projects"
+
+> "What tasks are open in project K-25-398?"
+
+> "List all invoices from this month"
+
+> "Create a reporting: 2 hours on task 12345 for today"
+
+> "Start the time tracker on task 54321"
+
+### Example: Listing Projects
+
+```
+User: Show me active projects for Acme Corp
+
+Tool call: list_projects
+  filter: "companyId eq 61037"
+  expand: "company,projectStatus"
+  top: 10
+```
+
+```json
+[
+  {
+    "id": 519,
+    "name": "Website Relaunch (Acme)",
+    "number": "K-25-398",
+    "projectStatus": {
+      "name": "In Bearbeitung",
+      "inProgress": true
+    },
+    "company": {
+      "name": "Acme Corp GmbH"
+    },
+    "startDate": "2025-02-01T00:00:00",
+    "plannedFinishDate": "2026-01-31T00:00:00"
+  }
+]
+```
+
+### Example: Reading a Document
+
+```
+User: Show me quotation AN-26-0126
+
+Tool call: get_document
+  id: 1963
+  expand: "company,project,positions,documentStatusEntity"
+```
+
+```json
+{
+  "id": 1963,
+  "documentType": "Quotation",
+  "number": "AN-26-0126",
+  "date": "2026-04-02T00:00:00",
+  "netValue": 892.50,
+  "taxValue": 169.58,
+  "grossValue": 1062.08,
+  "currency": "EUR",
+  "company": {
+    "name": "Acme Corp GmbH"
+  },
+  "project": {
+    "name": "Website Relaunch (Acme)",
+    "number": "K-25-398"
+  },
+  "documentStatusEntity": {
+    "name": "Sent"
+  }
+}
+```
+
+### Example: Reporting Time
+
+```
+User: Log 1.5 hours for task "Analytics Setup" today
+
+Tool call: create_reporting
+  name: "Analytics Properties eingerichtet, Events konfiguriert"
+  startOn: "2026-04-02T12:30:00"
+  endOn: "2026-04-02T14:00:00"
+  taskId: 96095
+  userId: 11009
+```
+
+```json
+{
+  "id": 32355,
+  "name": "Analytics Properties eingerichtet, Events konfiguriert",
+  "startOn": "2026-04-02T12:30:00Z",
+  "endOn": "2026-04-02T14:00:00Z",
+  "duration": 1.5,
+  "chargeRateValue": 85,
+  "isApproved": false,
+  "projectId": 41,
+  "taskId": 96095,
+  "userId": 11009
+}
+```
+
+### Example: Time Tracking
+
+```
+User: Start the timer on task 97875
+
+Tool call: start_working_time
+  taskId: 97875
+  note: "Bug fixes"
+```
+
+```
+User: Stop the timer
+
+Tool call: stop_working_time
+```
+
+---
 
 ## Filtering
 
-All list tools support OData-style filtering via the `filter` parameter:
+All `list_*` tools support OData-style filtering, sorting, and pagination:
 
 ```
-# Documents from a specific company
+# Filter by company
 filter: "companyId eq 123"
 
-# Open tasks
-filter: "isDone eq false"
-
-# Reportings for a date range
+# Filter by date range
 filter: "startOn ge 2025-01-01T00:00:00 and startOn lt 2025-02-01T00:00:00"
 
-# Projects by status
-filter: "status eq 'Active'"
+# Filter by status
+filter: "isDone eq false"
+
+# Sort results
+orderby: "date desc"
+
+# Pagination
+top: 20
+skip: 40
+
+# Expand related entities
+expand: "company,project,projectStatus"
 ```
+
+### Common filter operators
+
+| Operator | Description | Example |
+|---|---|---|
+| `eq` | Equals | `"status eq 'Active'"` |
+| `ne` | Not equals | `"isDone ne true"` |
+| `gt` / `ge` | Greater than / or equal | `"date gt 2025-01-01T00:00:00"` |
+| `lt` / `le` | Less than / or equal | `"netValue le 1000"` |
+| `and` / `or` | Logical operators | `"isDone eq false and projectId eq 10"` |
+
+---
 
 ## API Reference
 
-This server uses the [helloHQ API v2](https://developer.hellohq.io). Rate limit: 1000 requests/minute.
+This server uses the **helloHQ API v2** — a standard REST API with token-based authentication.
+
+- **Base URL:** `https://api.hellohq.io/v2`
+- **Rate Limit:** 1000 requests/minute
+- **Documentation:** [developer.hellohq.io](https://developer.hellohq.io)
+
+---
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Build
+npm run build
+
+# Watch mode
+npm run dev
+```
+
+### Project Structure
+
+```
+src/
+├── index.ts           # MCP server entry point
+├── api-client.ts      # HelloHQ API client
+└── tools/
+    ├── projects.ts    # Project tools
+    ├── tasks.ts       # Task tools
+    ├── documents.ts   # Document tools
+    ├── reportings.ts  # Reporting tools
+    ├── working-times.ts # Working time tools
+    └── users.ts       # User & company tools
+```
+
+---
 
 ## License
 
