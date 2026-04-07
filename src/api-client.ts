@@ -132,6 +132,191 @@ export class HelloHQClient {
     return this.request("/DocumentStatus");
   }
 
+  async createDocument(document: {
+    documentType: string;
+    companyId: number;
+    projectId?: number;
+    leadId?: number;
+    contactPersonId?: number;
+    date?: string;
+    validUntilDate?: string;
+    currency?: string;
+    discountNet?: number;
+    discountPercent?: number;
+    marginNet?: number;
+    marginPercent?: number;
+    performancePeriodStartDate?: string;
+    performancePeriodEndDate?: string;
+    deliveryConditionId?: number;
+    paymentConditionId?: number;
+    companyPurchaseOrderNumberId?: number;
+    financesBankAccountId?: number;
+    internalContactPersonId?: number;
+    documentTemplateEntityId?: number;
+    number?: string;
+  }) {
+    return this.request("/Documents", { method: "POST", body: document });
+  }
+
+  async updateDocument(id: number, document: {
+    documentType?: string;
+    companyId?: number;
+    projectId?: number;
+    leadId?: number;
+    contactPersonId?: number;
+    date?: string;
+    validUntilDate?: string;
+    note?: string;
+    currency?: string;
+    taxOption?: string;
+    serviceType?: string;
+    discountNet?: number;
+    discountPercent?: number;
+    marginNet?: number;
+    marginPercent?: number;
+    performancePeriodStartDate?: string;
+    performancePeriodEndDate?: string;
+    deliveryConditionId?: number;
+    paymentConditionId?: number;
+    companyPurchaseOrderNumberId?: number;
+    financesBankAccountId?: number;
+    internalContactPersonId?: number;
+    number?: string;
+  }) {
+    return this.request(`/Documents/${id}`, { method: "PUT", body: document });
+  }
+
+  async deleteDocument(id: number) {
+    return this.request(`/Documents/${id}`, { method: "DELETE" });
+  }
+
+  async changeDocumentStatus(id: number, documentStatusId: number, paymentDtos?: Array<{ paymentDate: string; amount: number; typeOfPayment?: string }>) {
+    return this.request(`/Documents/${id}/ChangeStatus`, { method: "POST", body: { documentStatusId, paymentDtos: paymentDtos ?? [] } });
+  }
+
+  async changeDocumentTemplate(id: number, documentTemplateId: number, replaceOrderedElementsFromTemplate?: boolean) {
+    return this.request(`/Documents/${id}/ChangeTemplate`, { method: "POST", body: { documentTemplateId, replaceOrderedElementsFromTemplate } });
+  }
+
+  async copyDocument(id: number) {
+    return this.request(`/Documents/${id}/Copy`, { method: "POST" });
+  }
+
+  async createDocumentFromDocument(id: number, documentType: string) {
+    return this.request(`/Documents/${id}/CreateFromDocument`, { method: "POST", body: { documentType } });
+  }
+
+  async setDocumentCompanyData(id: number) {
+    return this.request(`/Documents/${id}/SetCompanyData`, { method: "POST" });
+  }
+
+  async addDocumentPayment(id: number, payment: { paymentDate: string; amount: number; typeOfPayment?: string }) {
+    return this.request(`/Documents/${id}/Payments`, { method: "POST", body: payment });
+  }
+
+  async addDocumentComment(id: number, message: string) {
+    return this.request(`/Documents/${id}/Comments`, { method: "POST", body: { message } });
+  }
+
+  async deleteDocumentComment(documentId: number, commentId: number) {
+    return this.request(`/Documents/${documentId}/Comments/${commentId}`, { method: "DELETE" });
+  }
+
+  async getDocumentTemplates() {
+    return this.request("/DocumentTemplates");
+  }
+
+  // --- Document Positions ---
+
+  async createFreeTextPosition(position: {
+    documentEntityId: number;
+    text?: string;
+    amount1?: number;
+    unitId1?: number;
+    amount2?: number;
+    unitId2?: number;
+    price?: number;
+    cost?: number;
+    tax?: number;
+    discountNet?: number;
+    discountPercent?: number;
+    marginNet?: number;
+    marginPercent?: number;
+    isOptional?: boolean;
+    isExternal?: boolean;
+    isFactorizable?: boolean;
+    documentTableId?: string;
+    projectId?: number;
+    taskTypeId?: number;
+  }) {
+    return this.request("/DocumentPositions/FreeTextPosition", { method: "POST", body: position });
+  }
+
+  async createServicePosition(position: { documentEntityId: number; servicePriceId: number; documentTableId?: string }) {
+    return this.request("/DocumentPositions/ServicePosition", { method: "POST", body: position });
+  }
+
+  async createServiceSetPosition(position: { documentEntityId: number; serviceSetId: number; documentTableId?: string }) {
+    return this.request("/DocumentPositions/ServiceSet", { method: "POST", body: position });
+  }
+
+  async createTextPosition(position: { documentEntityId: number; text?: string; textFieldId?: number; amount1?: number; amount2?: number; tax?: number; documentTableId?: string }) {
+    return this.request("/DocumentPositions/TextPosition", { method: "POST", body: position });
+  }
+
+  async createPageBreakPosition(position: { documentEntityId: number; text?: string; amount1?: number; amount2?: number; tax?: number; documentTableId?: string }) {
+    return this.request("/DocumentPositions/PageBreakPosition", { method: "POST", body: position });
+  }
+
+  async updateDocumentPosition(id: number, position: {
+    text?: string;
+    amount1?: number;
+    unitId1?: number;
+    amount2?: number;
+    unitId2?: number;
+    price?: number;
+    cost?: number;
+    tax?: number;
+    discountNet?: number;
+    discountPercent?: number;
+    marginNet?: number;
+    marginPercent?: number;
+    isOptional?: boolean;
+    isExternal?: boolean;
+  }) {
+    return this.request(`/DocumentPositions/${id}`, { method: "PUT", body: position });
+  }
+
+  async updateTextPosition(id: number, text: string) {
+    return this.request(`/DocumentPositions/TextPosition/${id}`, { method: "PUT", body: { text } });
+  }
+
+  async deleteDocumentPosition(id: number) {
+    return this.request(`/DocumentPositions/${id}`, { method: "DELETE" });
+  }
+
+  // --- Document Elements ---
+
+  async createDocumentTextElement(documentId: number, index: number, text: string) {
+    return this.request(`/Documents/${documentId}/Text`, { method: "POST", body: { index, text } });
+  }
+
+  async updateDocumentTextElement(documentId: number, elementId: string, text: string, index?: number) {
+    return this.request(`/Documents/${documentId}/Text/${elementId}`, { method: "PUT", body: { text, index } });
+  }
+
+  async createDocumentPageBreak(documentId: number, index: number) {
+    return this.request(`/Documents/${documentId}/PageBreak`, { method: "POST", body: { index } });
+  }
+
+  async createDocumentTable(documentId: number, index: number, text?: string) {
+    return this.request(`/Documents/${documentId}/Table`, { method: "POST", body: { index, text } });
+  }
+
+  async deleteDocumentElement(documentId: number, elementId: string) {
+    return this.request(`/Documents/${documentId}/DocumentElements/${elementId}`, { method: "DELETE" });
+  }
+
   // --- User Reportings ---
 
   async listReportings(options?: { filter?: string; top?: number; skip?: number; expand?: string; orderby?: string }) {
