@@ -17,13 +17,15 @@ This server connects AI assistants like **Claude** to your helloHQ instance, giv
 |---|:---:|:---:|---|
 | **Projects** | ✅ | — | `list_projects` `get_project` `get_project_members` `get_project_statuses` |
 | **Tasks** | ✅ | ✅ | `list_tasks` `get_project_tasks` `get_task_statuses` `create_task` `update_task` `set_task_status` `mark_task_done` `mark_task_open` |
-| **Documents** | ✅ | — | `list_documents` `get_document` `get_document_positions` `get_document_elements` `get_document_comments` `get_document_statuses` |
+| **Documents** | ✅ | ✅ | `list_documents` `get_document` `get_document_positions` `get_document_elements` `get_document_comments` `get_document_statuses` `get_document_templates` `create_document` `update_document` `delete_document` `change_document_status` `change_document_template` `copy_document` `create_document_from_document` `add_document_payment` `add_document_comment` |
+| **Document Positions** | — | ✅ | `create_free_text_position` `create_service_position` `create_service_set_position` `create_text_position` `update_document_position` `delete_document_position` |
+| **Document Elements** | — | ✅ | `create_document_text_element` `update_document_text_element` `create_document_page_break` `create_document_table` `delete_document_element` |
 | **Reportings** | ✅ | ✅ | `list_reportings` `get_reporting` `create_reporting` `update_reporting` `delete_reporting` `change_reporting_task` |
 | **Working Times** | ✅ | ✅ | `list_working_times` `create_working_time` `get_running_working_time` `start_working_time` `stop_working_time` `update_running_working_time` |
 | **Users** | ✅ | — | `list_users` `get_user` |
 | **Companies** | ✅ | — | `list_companies` `get_company` |
 
-**34 tools** total, covering the helloHQ v2 REST API.
+**55 tools** total, covering the helloHQ v2 REST API.
 
 ---
 

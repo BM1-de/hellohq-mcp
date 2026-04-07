@@ -16,6 +16,7 @@
       "mcp__hellohq__get_document_elements",
       "mcp__hellohq__get_document_comments",
       "mcp__hellohq__get_document_statuses",
+      "mcp__hellohq__get_document_templates",
 
       "mcp__hellohq__list_reportings",
       "mcp__hellohq__get_reporting",
