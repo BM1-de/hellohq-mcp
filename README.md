@@ -23,9 +23,10 @@ This server connects AI assistants like **Claude** to your helloHQ instance, giv
 | **Reportings** | ✅ | ✅ | `list_reportings` `get_reporting` `create_reporting` `update_reporting` `delete_reporting` `change_reporting_task` |
 | **Working Times** | ✅ | ✅ | `list_working_times` `create_working_time` `get_running_working_time` `start_working_time` `stop_working_time` `update_running_working_time` |
 | **Users** | ✅ | — | `list_users` `get_user` |
-| **Companies** | ✅ | — | `list_companies` `get_company` |
+| **Companies** | ✅ | ✅ | `list_companies` `get_company` `create_company` `update_company` `delete_company` |
+| **Contact Persons** | ✅ | ✅ | `list_contact_persons` `get_contact_person` `create_contact_person` `update_contact_person` `delete_contact_person` |
 
-**55 tools** total, covering the helloHQ v2 REST API.
+**63 tools** total, covering the helloHQ v2 REST API.
 
 ---
 
@@ -298,7 +299,8 @@ src/
     ├── documents.ts   # Document tools
     ├── reportings.ts  # Reporting tools
     ├── working-times.ts # Working time tools
-    └── users.ts       # User & company tools
+    ├── companies.ts   # Company & contact person tools
+    └── users.ts       # User tools
 ```
 
 ---
