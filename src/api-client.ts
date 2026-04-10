@@ -446,36 +446,11 @@ export class HelloHQClient {
     return this.request(`/ContactPersons/${id}`, { params: { $expand: expand } });
   }
 
-  async createContactPerson(contactPerson: {
-    companyId: number;
-    lastName: string;
-    salutation: string;
-    salutationForm: string;
-    firstName?: string;
-    eMail?: string;
-    phoneLandline?: string;
-    phoneMobile?: string;
-    position?: string;
-    language?: string;
-    birthdate?: string;
-    note?: string;
-  }) {
+  async createContactPerson(contactPerson: Record<string, unknown>) {
     return this.request("/ContactPersons", { method: "POST", body: contactPerson });
   }
 
-  async updateContactPerson(id: number, contactPerson: {
-    lastName?: string;
-    salutation?: string;
-    salutationForm?: string;
-    firstName?: string;
-    eMail?: string;
-    phoneLandline?: string;
-    phoneMobile?: string;
-    position?: string;
-    language?: string;
-    birthdate?: string;
-    note?: string;
-  }) {
+  async updateContactPerson(id: number, contactPerson: Record<string, unknown>) {
     return this.request(`/ContactPersons/${id}`, { method: "PUT", body: contactPerson });
   }
 

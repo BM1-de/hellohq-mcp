@@ -50,7 +50,9 @@ server.tool(
 - Expand parameter joins related entities (e.g. `"company,projectStatus,projectMembers"`)
 - Auth: Bearer JWT token via `Authorization` header
 - Rate limit: 1000 requests/minute
-- **Never guess API endpoints or field names!** Always test against the real API first (e.g. via `curl`) to verify structure, required fields, and field names before implementing.
+- **Never guess API endpoints or field names!** Always test against the real API first (e.g. via `curl`) to verify structure, required fields, and field names before implementing. Consult the API docs at https://developer.hellohq.io/ as well.
+- **Test every field individually** before committing. Create a test record, verify each writable field via GET, then clean up. Do not commit untested tools.
+- **CRITICAL: Never modify or delete production data for testing!** There is no backup. Always create dedicated test records, verify, then delete them immediately.
 
 ### After Changes Checklist
 
