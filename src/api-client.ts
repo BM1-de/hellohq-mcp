@@ -391,40 +391,43 @@ export class HelloHQClient {
 
   async createCompany(company: {
     name: string;
-    companyType?: string;
-    street?: string;
-    zip?: string;
-    city?: string;
-    country?: string;
-    phone?: string;
-    fax?: string;
-    email?: string;
-    website?: string;
+    defaultAddress: {
+      description: string;
+      street?: string;
+      houseNumber?: string;
+      zipCode?: string;
+      city?: string;
+      country?: string;
+      phone?: string;
+      fax?: string;
+      email?: string;
+      website?: string;
+      addressLine2?: string;
+      alternativeCompanyName?: string;
+      additionalInformation?: string;
+    };
+    description?: string;
+    industrialSector?: string;
     vatId?: string;
-    taxNumber?: string;
     iban?: string;
     bic?: string;
-    note?: string;
+    homepage?: string;
+    debitorNumber?: string;
+    creditorNumber?: string;
   }) {
     return this.request("/Companies", { method: "POST", body: company });
   }
 
   async updateCompany(id: number, company: {
     name?: string;
-    companyType?: string;
-    street?: string;
-    zip?: string;
-    city?: string;
-    country?: string;
-    phone?: string;
-    fax?: string;
-    email?: string;
-    website?: string;
+    description?: string;
+    industrialSector?: string;
     vatId?: string;
-    taxNumber?: string;
     iban?: string;
     bic?: string;
-    note?: string;
+    homepage?: string;
+    debitorNumber?: string;
+    creditorNumber?: string;
   }) {
     return this.request(`/Companies/${id}`, { method: "PUT", body: company });
   }

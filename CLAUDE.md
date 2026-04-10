@@ -14,7 +14,7 @@ No test framework is configured. Verify changes by building (`npm run build`) an
 
 ## Architecture
 
-This is an MCP (Model Context Protocol) server that wraps the **helloHQ v2 REST API** (`https://api.hellohq.io/v2`). It uses stdio transport and exposes 55 tools.
+This is an MCP (Model Context Protocol) server that wraps the **helloHQ v2 REST API** (`https://api.hellohq.io/v2`). It uses stdio transport and exposes 63 tools.
 
 ### Key Components
 
@@ -50,6 +50,14 @@ server.tool(
 - Expand parameter joins related entities (e.g. `"company,projectStatus,projectMembers"`)
 - Auth: Bearer JWT token via `Authorization` header
 - Rate limit: 1000 requests/minute
+- **Never guess API endpoints or field names!** Always test against the real API first (e.g. via `curl`) to verify structure, required fields, and field names before implementing.
+
+### After Changes Checklist
+
+1. **Build:** `npm run build` — must pass without errors
+2. **Update README.md:** Features table, tool count, project structure
+3. **Update CLAUDE.md:** Tool count if it changed
+4. **Serve locally:** After building, the MCP server is immediately available for both Claude Code and Claude Desktop (both use `dist/index.js`)
 
 ### Remotes
 
