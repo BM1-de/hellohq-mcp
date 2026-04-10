@@ -123,17 +123,16 @@ export function registerCompanyTools(server: McpServer, client: HelloHQClient) {
 
   server.tool(
     "list_contact_persons",
-    "List contact persons of a company",
+    "List contact persons with optional filtering. Use filter \"companyId eq 123\" to list by company.",
     {
-      companyId: z.number().describe("Company ID"),
-      filter: z.string().optional().describe("OData filter expression"),
+      filter: z.string().optional().describe("OData filter expression, e.g. \"companyId eq 61037\""),
       top: z.number().optional().describe("Maximum number of results (default: 50, max: 1000)"),
       skip: z.number().optional().describe("Number of results to skip for pagination"),
       orderby: z.string().optional().describe("OData orderby expression"),
-      expand: z.string().optional().describe("Related entities to expand"),
+      expand: z.string().optional().describe("Related entities to expand, e.g. \"company,defaultAddress\""),
     },
-    async ({ companyId, filter, top, skip, orderby, expand }) => {
-      const result = await client.listContactPersons(companyId, { filter, top: top ?? 50, skip, orderby, expand });
+    async ({ filter, top, skip, orderby, expand }) => {
+      const result = await client.listContactPersons({ filter, top: top ?? 50, skip, orderby, expand });
       return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
   );
@@ -142,34 +141,34 @@ export function registerCompanyTools(server: McpServer, client: HelloHQClient) {
     "get_contact_person",
     "Get a single contact person by ID",
     {
-      companyId: z.number().describe("Company ID"),
-      contactPersonId: z.number().describe("Contact person ID"),
+      id: z.number().describe("Contact person ID"),
       expand: z.string().optional().describe("Related entities to expand"),
     },
-    async ({ companyId, contactPersonId, expand }) => {
-      const result = await client.getContactPerson(companyId, contactPersonId, expand);
+    async ({ id, expand }) => {
+      const result = await client.getContactPerson(id, expand);
       return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
   );
 
   server.tool(
     "create_contact_person",
-    "Create a new contact person for a company",
+    "Create a new contact person for a company. Requires companyId, lastName, salutation and salutationForm.",
     {
       companyId: z.number().describe("Company ID"),
       lastName: z.string().describe("Last name"),
+      salutation: z.string().describe("Salutation: 'Herr', 'Frau' or 'Divers'"),
+      salutationForm: z.string().describe("Salutation form: 'Formal' or 'Informal'"),
       firstName: z.string().optional().describe("First name"),
-      email: z.string().optional().describe("Email address"),
-      phone: z.string().optional().describe("Phone number"),
-      mobile: z.string().optional().describe("Mobile number"),
+      eMail: z.string().optional().describe("Email address"),
+      phoneLandline: z.string().optional().describe("Landline phone number"),
+      phoneMobile: z.string().optional().describe("Mobile phone number"),
       position: z.string().optional().describe("Job position / title"),
-      department: z.string().optional().describe("Department"),
-      salutation: z.string().optional().describe("Salutation (e.g. 'Herr', 'Frau')"),
-      title: z.string().optional().describe("Academic title (e.g. 'Dr.', 'Prof.')"),
+      language: z.string().optional().describe("Language code, e.g. 'de-DE'"),
+      birthdate: z.string().optional().describe("Birthdate (ISO 8601)"),
       note: z.string().optional().describe("Internal note"),
     },
-    async ({ companyId, ...contactPerson }) => {
-      const result = await client.createContactPerson(companyId, contactPerson);
+    async (params) => {
+      const result = await client.createContactPerson(params);
       return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
   );
@@ -178,21 +177,21 @@ export function registerCompanyTools(server: McpServer, client: HelloHQClient) {
     "update_contact_person",
     "Update an existing contact person",
     {
-      companyId: z.number().describe("Company ID"),
-      contactPersonId: z.number().describe("Contact person ID"),
+      id: z.number().describe("Contact person ID"),
       lastName: z.string().optional().describe("Last name"),
+      salutation: z.string().optional().describe("Salutation: 'Herr', 'Frau' or 'Divers'"),
+      salutationForm: z.string().optional().describe("Salutation form: 'Formal' or 'Informal'"),
       firstName: z.string().optional().describe("First name"),
-      email: z.string().optional().describe("Email address"),
-      phone: z.string().optional().describe("Phone number"),
-      mobile: z.string().optional().describe("Mobile number"),
+      eMail: z.string().optional().describe("Email address"),
+      phoneLandline: z.string().optional().describe("Landline phone number"),
+      phoneMobile: z.string().optional().describe("Mobile phone number"),
       position: z.string().optional().describe("Job position / title"),
-      department: z.string().optional().describe("Department"),
-      salutation: z.string().optional().describe("Salutation"),
-      title: z.string().optional().describe("Academic title"),
+      language: z.string().optional().describe("Language code, e.g. 'de-DE'"),
+      birthdate: z.string().optional().describe("Birthdate (ISO 8601)"),
       note: z.string().optional().describe("Internal note"),
     },
-    async ({ companyId, contactPersonId, ...updates }) => {
-      const result = await client.updateContactPerson(companyId, contactPersonId, updates);
+    async ({ id, ...updates }) => {
+      const result = await client.updateContactPerson(id, updates);
       return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
   );
@@ -201,12 +200,11 @@ export function registerCompanyTools(server: McpServer, client: HelloHQClient) {
     "delete_contact_person",
     "Delete a contact person",
     {
-      companyId: z.number().describe("Company ID"),
-      contactPersonId: z.number().describe("Contact person ID"),
+      id: z.number().describe("Contact person ID"),
     },
-    async ({ companyId, contactPersonId }) => {
-      await client.deleteContactPerson(companyId, contactPersonId);
-      return { content: [{ type: "text", text: `Contact person ${contactPersonId} deleted.` }] };
+    async ({ id }) => {
+      await client.deleteContactPerson(id);
+      return { content: [{ type: "text", text: `Contact person ${id} deleted.` }] };
     }
   );
 }
