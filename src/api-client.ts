@@ -388,4 +388,92 @@ export class HelloHQClient {
   async getCompany(id: number, expand?: string) {
     return this.request(`/Companies/${id}`, { params: { $expand: expand } });
   }
+
+  async createCompany(company: {
+    name: string;
+    companyType?: string;
+    street?: string;
+    zip?: string;
+    city?: string;
+    country?: string;
+    phone?: string;
+    fax?: string;
+    email?: string;
+    website?: string;
+    vatId?: string;
+    taxNumber?: string;
+    iban?: string;
+    bic?: string;
+    note?: string;
+  }) {
+    return this.request("/Companies", { method: "POST", body: company });
+  }
+
+  async updateCompany(id: number, company: {
+    name?: string;
+    companyType?: string;
+    street?: string;
+    zip?: string;
+    city?: string;
+    country?: string;
+    phone?: string;
+    fax?: string;
+    email?: string;
+    website?: string;
+    vatId?: string;
+    taxNumber?: string;
+    iban?: string;
+    bic?: string;
+    note?: string;
+  }) {
+    return this.request(`/Companies/${id}`, { method: "PUT", body: company });
+  }
+
+  async deleteCompany(id: number) {
+    return this.request(`/Companies/${id}`, { method: "DELETE" });
+  }
+
+  // --- Contact Persons ---
+
+  async listContactPersons(companyId: number, options?: { filter?: string; top?: number; skip?: number; expand?: string; orderby?: string }) {
+    return this.request(`/Companies/${companyId}/ContactPersons`, { params: { $filter: options?.filter, $top: options?.top, $skip: options?.skip, $expand: options?.expand, $orderby: options?.orderby } });
+  }
+
+  async getContactPerson(companyId: number, contactPersonId: number, expand?: string) {
+    return this.request(`/Companies/${companyId}/ContactPersons/${contactPersonId}`, { params: { $expand: expand } });
+  }
+
+  async createContactPerson(companyId: number, contactPerson: {
+    firstName?: string;
+    lastName: string;
+    email?: string;
+    phone?: string;
+    mobile?: string;
+    position?: string;
+    department?: string;
+    salutation?: string;
+    title?: string;
+    note?: string;
+  }) {
+    return this.request(`/Companies/${companyId}/ContactPersons`, { method: "POST", body: contactPerson });
+  }
+
+  async updateContactPerson(companyId: number, contactPersonId: number, contactPerson: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    mobile?: string;
+    position?: string;
+    department?: string;
+    salutation?: string;
+    title?: string;
+    note?: string;
+  }) {
+    return this.request(`/Companies/${companyId}/ContactPersons/${contactPersonId}`, { method: "PUT", body: contactPerson });
+  }
+
+  async deleteContactPerson(companyId: number, contactPersonId: number) {
+    return this.request(`/Companies/${companyId}/ContactPersons/${contactPersonId}`, { method: "DELETE" });
+  }
 }

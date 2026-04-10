@@ -31,33 +31,4 @@ export function registerUserTools(server: McpServer, client: HelloHQClient) {
       return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
     }
   );
-
-  server.tool(
-    "list_companies",
-    "List companies (customers, suppliers, partners) with optional filtering",
-    {
-      filter: z.string().optional().describe("OData filter expression, e.g. \"name eq 'Acme Corp'\""),
-      top: z.number().optional().describe("Maximum number of results (default: 50, max: 1000)"),
-      skip: z.number().optional().describe("Number of results to skip for pagination"),
-      orderby: z.string().optional().describe("OData orderby expression"),
-      expand: z.string().optional().describe("Related entities to expand"),
-    },
-    async ({ filter, top, skip, orderby, expand }) => {
-      const result = await client.listCompanies({ filter, top: top ?? 50, skip, orderby, expand });
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
-    }
-  );
-
-  server.tool(
-    "get_company",
-    "Get a single company by ID",
-    {
-      id: z.number().describe("Company ID"),
-      expand: z.string().optional().describe("Related entities to expand"),
-    },
-    async ({ id, expand }) => {
-      const result = await client.getCompany(id, expand);
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
-    }
-  );
 }
