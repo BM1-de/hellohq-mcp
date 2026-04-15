@@ -64,6 +64,41 @@ export class HelloHQClient {
     return this.request(`/Projects/${id}`, { params: { $expand: expand } });
   }
 
+  async createProject(project: {
+    name: string;
+    number?: string;
+    startDate?: string;
+    projectTemplateId?: number;
+    companyId?: number;
+    projectStatusId?: number;
+    initialContactDate?: string;
+    plannedFinishDate?: string;
+    internalContactPersonId?: number;
+    financesCostCenterId?: number;
+    customFields?: Array<{ filterName: string; name: string; type: string; value: unknown }>;
+  }) {
+    return this.request("/Projects", { method: "POST", body: project });
+  }
+
+  async updateProject(id: number, project: {
+    name: string;
+    number: string;
+    startDate: string;
+    projectTemplateId?: number;
+    companyId?: number;
+    projectStatusId?: number;
+    plannedFinishDate?: string;
+    internalContactPersonId?: number;
+    financesCostCenterId?: number;
+    customFields?: Array<{ filterName: string; name: string; type: string; value: unknown }>;
+  }) {
+    return this.request(`/Projects/${id}`, { method: "PUT", body: project });
+  }
+
+  async deleteProject(id: number) {
+    return this.request(`/Projects/${id}`, { method: "DELETE" });
+  }
+
   async getProjectMembers(projectId: number) {
     return this.request(`/Projects/${projectId}/ProjectMembers`);
   }

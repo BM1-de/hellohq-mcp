@@ -15,7 +15,7 @@ This server connects AI assistants like **Claude** to your helloHQ instance, giv
 
 | Category | Read | Write | Tools |
 |---|:---:|:---:|---|
-| **Projects** | ✅ | — | `list_projects` `get_project` `get_project_members` `get_project_statuses` |
+| **Projects** | ✅ | ✅ | `list_projects` `get_project` `get_project_members` `get_project_statuses` `create_project` `update_project` `delete_project` |
 | **Tasks** | ✅ | ✅ | `list_tasks` `get_project_tasks` `get_task_statuses` `create_task` `update_task` `set_task_status` `mark_task_done` `mark_task_open` |
 | **Documents** | ✅ | ✅ | `list_documents` `get_document` `get_document_positions` `get_document_elements` `get_document_comments` `get_document_statuses` `get_document_templates` `create_document` `update_document` `delete_document` `change_document_status` `change_document_template` `copy_document` `create_document_from_document` `add_document_payment` `add_document_comment` |
 | **Document Positions** | — | ✅ | `create_free_text_position` `create_service_position` `create_service_set_position` `create_text_position` `update_document_position` `delete_document_position` |
@@ -26,7 +26,7 @@ This server connects AI assistants like **Claude** to your helloHQ instance, giv
 | **Companies** | ✅ | ✅ | `list_companies` `get_company` `create_company` `update_company` `delete_company` |
 | **Contact Persons** | ✅ | ✅ | `list_contact_persons` `get_contact_person` `create_contact_person` `update_contact_person` `delete_contact_person` |
 
-**63 tools** total, covering the helloHQ v2 REST API.
+**66 tools** total, covering the helloHQ v2 REST API.
 
 ---
 

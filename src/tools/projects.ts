@@ -45,6 +45,66 @@ export function registerProjectTools(server: McpServer, client: HelloHQClient) {
   );
 
   server.tool(
+    "create_project",
+    "Create a new project in helloHQ. ProjectTemplateId values: 2002=Extern, 2003=Intern, 2006=Betreuung. ProjectStatusId values: 1=Läuft, 2=Anbahnung, 3=Abgeschlossen, 4=Nachbereitung, 5=Abgebrochen, 9=Abgerechnet, 10=Pausiert.",
+    {
+      name: z.string().describe("Project name"),
+      number: z.string().optional().describe("Project number (may be auto-generated from template)"),
+      startDate: z.string().optional().describe("Project start date (ISO 8601, e.g. '2026-01-15T00:00:00')"),
+      projectTemplateId: z.number().optional().describe("Project template ID: 2002=Extern, 2003=Intern, 2006=Betreuung"),
+      companyId: z.number().optional().describe("Company ID to link the project to"),
+      projectStatusId: z.number().optional().describe("Project status ID: 1=Läuft, 2=Anbahnung, 3=Abgeschlossen, 4=Nachbereitung, 5=Abgebrochen, 9=Abgerechnet, 10=Pausiert"),
+      initialContactDate: z.string().optional().describe("Date of initial contact (ISO 8601)"),
+      plannedFinishDate: z.string().optional().describe("Planned finish date (ISO 8601)"),
+      internalContactPersonId: z.number().optional().describe("Internal contact person ID"),
+      financesCostCenterId: z.number().optional().describe("Cost center ID"),
+    },
+    async (params) => {
+      const result = await client.createProject(params);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    "update_project",
+    "Update an existing project. IMPORTANT: This is a full PUT — all fields not provided will be reset to defaults. Always include name, number, and startDate (required). Note: initialContactDate cannot be changed after creation.",
+    {
+      id: z.number().describe("Project ID to update"),
+      name: z.string().describe("Project name"),
+      number: z.string().describe("Project number (e.g. 'B-26-142')"),
+      startDate: z.string().describe("Project start date (ISO 8601, required by API)"),
+      projectTemplateId: z.number().optional().describe("Project template ID"),
+      companyId: z.number().optional().describe("Company ID"),
+      projectStatusId: z.number().optional().describe("Project status ID"),
+      plannedFinishDate: z.string().optional().describe("Planned finish date (ISO 8601)"),
+      internalContactPersonId: z.number().optional().describe("Internal contact person ID"),
+      financesCostCenterId: z.number().optional().describe("Cost center ID"),
+      customFields: z.array(z.object({
+        filterName: z.string().describe("Field identifier, e.g. 'CustomFieldText1'"),
+        name: z.string().describe("Display name, e.g. 'Informationen'"),
+        type: z.string().describe("Field type, e.g. 'TextMultiline'"),
+        value: z.unknown().describe("Field value"),
+      })).optional().describe("Custom fields array"),
+    },
+    async ({ id, ...params }) => {
+      const result = await client.updateProject(id, params);
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    }
+  );
+
+  server.tool(
+    "delete_project",
+    "Delete a project by ID. WARNING: This is irreversible!",
+    {
+      id: z.number().describe("Project ID to delete"),
+    },
+    async ({ id }) => {
+      await client.deleteProject(id);
+      return { content: [{ type: "text", text: `Project ${id} deleted successfully.` }] };
+    }
+  );
+
+  server.tool(
     "get_project_statuses",
     "Get all available project statuses",
     {},
