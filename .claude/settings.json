@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__hellohq__list_projects",
+      "mcp__hellohq__get_project",
+      "mcp__hellohq__get_project_members",
+      "mcp__hellohq__get_project_statuses",
+
+      "mcp__hellohq__list_tasks",
+      "mcp__hellohq__get_project_tasks",
+      "mcp__hellohq__get_task_statuses",
+
+      "mcp__hellohq__list_documents",
+      "mcp__hellohq__get_document",
+      "mcp__hellohq__get_document_positions",
+      "mcp__hellohq__get_document_elements",
+      "mcp__hellohq__get_document_comments",
+      "mcp__hellohq__get_document_statuses",
+      "mcp__hellohq__get_document_templates",
+
+      "mcp__hellohq__list_reportings",
+      "mcp__hellohq__get_reporting",
+
+      "mcp__hellohq__list_working_times",
+      "mcp__hellohq__get_running_working_time",
+
+      "mcp__hellohq__list_users",
+      "mcp__hellohq__get_user",
+      "mcp__hellohq__list_companies",
+      "mcp__hellohq__get_company"
+    ]
+  }
+}
