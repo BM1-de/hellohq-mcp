@@ -14,7 +14,7 @@ No test framework is configured. Verify changes by building (`npm run build`) an
 
 ## Architecture
 
-This is an MCP (Model Context Protocol) server that wraps the **helloHQ v2 REST API** (`https://api.hellohq.io/v2`). It uses stdio transport and exposes 63 tools.
+This is an MCP (Model Context Protocol) server that wraps the **helloHQ v2 REST API** (`https://api.hellohq.io/v2`). It uses stdio transport and exposes 66 tools.
 
 ### Key Components
 
