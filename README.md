@@ -274,20 +274,7 @@ This server uses the **helloHQ API v2** — a standard REST API with token-based
 
 ---
 
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Watch mode
-npm run dev
-```
-
-### Project Structure
+## Project Structure
 
 ```
 src/
