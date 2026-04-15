@@ -63,7 +63,11 @@ server.tool(
 
 ### Remotes
 
-- `origin` → GitLab (private): `git@git.bm1.de:bm1/hellohq-mcp.git`
-- `github` → GitHub (public): `git@github.com:bm1-phillip/hellohq-mcp.git`
+- `origin` → GitLab (private, Entwicklung): `git@git.bm1.de:bm1/hellohq-mcp.git` — alle Dateien
+- `github` → GitHub (public, MCP only): `git@github.com:bm1-phillip/hellohq-mcp.git` — ohne CLAUDE.md, .claude/, .github/, scripts/
 
-Push to both after changes: `git push origin main && git push github main`
+Push workflow:
+```bash
+git push origin main                  # GitLab (alles)
+./scripts/publish-github.sh           # GitHub (nur öffentliche Dateien)
+```
