@@ -292,6 +292,17 @@ src/
 
 ---
 
+## About BM1
+
+`hellohq-mcp` is built and maintained by [BM1](https://www.bm1.de), a German
+agency for SEO, web development and custom software. We build
+search-visible websites, data-driven SEO setups and special-purpose tooling
+like this MCP server, which automates our agency back office. If you need
+help with SEO, a web project or an integration nobody offers off the
+shelf — [talk to us](https://www.bm1.de).
+
+---
+
 ## License
 
 MIT
