@@ -10,6 +10,7 @@ import { registerReportingTools } from "./tools/reportings.js";
 import { registerWorkingTimeTools } from "./tools/working-times.js";
 import { registerUserTools } from "./tools/users.js";
 import { registerCompanyTools } from "./tools/companies.js";
+import { registerPlannedRevenueTools } from "./tools/planned-revenues.js";
 
 const token = process.env.HELLOHQ_API_TOKEN;
 if (!token) {
@@ -34,6 +35,7 @@ registerReportingTools(server, client);
 registerWorkingTimeTools(server, client);
 registerUserTools(server, client);
 registerCompanyTools(server, client);
+registerPlannedRevenueTools(server, client);
 
 async function main() {
   const transport = new StdioServerTransport();

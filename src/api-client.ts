@@ -51,7 +51,13 @@ export class HelloHQClient {
       return undefined as T;
     }
 
-    return response.json() as Promise<T>;
+    // Some endpoints (e.g. PlannedRevenues ChangeStatusTo) return 200 with an empty body
+    const text = await response.text();
+    if (!text) {
+      return undefined as T;
+    }
+
+    return JSON.parse(text) as T;
   }
 
   // --- Projects ---
@@ -469,6 +475,67 @@ export class HelloHQClient {
 
   async deleteCompany(id: number) {
     return this.request(`/Companies/${id}`, { method: "DELETE" });
+  }
+
+  // --- Planned Revenues ---
+  // Note: unlike other endpoints, PlannedRevenues expects `expand` and `orderby`
+  // WITHOUT the `$` prefix ($expand is silently ignored by the API).
+
+  async listPlannedRevenues(options?: { filter?: string; top?: number; skip?: number; expand?: string; orderby?: string }) {
+    return this.request("/PlannedRevenues", { params: { $filter: options?.filter, $top: options?.top, $skip: options?.skip, expand: options?.expand, orderby: options?.orderby } });
+  }
+
+  async getPlannedRevenue(id: number, expand?: string) {
+    return this.request(`/PlannedRevenues/${id}`, { params: { expand } });
+  }
+
+  async createPlannedRevenue(plannedRevenue: {
+    companyId: number;
+    documentType: string;
+    description?: string;
+    interval?: string;
+    startDate?: string;
+    endDate?: string;
+    dueMonth?: number;
+    dueDay?: number;
+    performancePeriod?: string;
+    invoiceType?: string;
+    invoiceDate?: string;
+    currency?: string;
+    marginPercent?: number;
+    discountPercent?: number;
+    leadId?: number;
+    projectId?: number;
+  }) {
+    return this.request("/PlannedRevenues", { method: "POST", body: plannedRevenue });
+  }
+
+  async updatePlannedRevenue(id: number, plannedRevenue: {
+    companyId?: number;
+    description?: string;
+    interval?: string;
+    startDate?: string;
+    endDate?: string;
+    dueMonth?: number;
+    dueDay?: number;
+    performancePeriod?: string;
+    invoiceType?: string;
+    invoiceDate?: string;
+    currency?: string;
+    marginPercent?: number;
+    discountPercent?: number;
+    leadId?: number;
+    projectId?: number;
+  }) {
+    return this.request(`/PlannedRevenues/${id}`, { method: "PUT", body: plannedRevenue });
+  }
+
+  async deletePlannedRevenue(id: number) {
+    return this.request(`/PlannedRevenues/${id}`, { method: "DELETE" });
+  }
+
+  async changePlannedRevenueStatus(id: number, status: string) {
+    return this.request(`/PlannedRevenues/${id}/ChangeStatusTo/${status}`, { method: "POST" });
   }
 
   // --- Contact Persons ---

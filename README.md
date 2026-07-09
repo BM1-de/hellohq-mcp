@@ -13,20 +13,23 @@ This server connects AI assistants like **Claude** to your helloHQ instance, giv
 
 ## Features
 
-| Category | Read | Write | Tools |
-|---|:---:|:---:|---|
-| **Projects** | ✅ | ✅ | `list_projects` `get_project` `get_project_members` `get_project_statuses` `create_project` `update_project` `delete_project` |
-| **Tasks** | ✅ | ✅ | `list_tasks` `get_project_tasks` `get_task_statuses` `create_task` `update_task` `set_task_status` `mark_task_done` `mark_task_open` |
-| **Documents** | ✅ | ✅ | `list_documents` `get_document` `get_document_positions` `get_document_elements` `get_document_comments` `get_document_statuses` `get_document_templates` `create_document` `update_document` `delete_document` `change_document_status` `change_document_template` `copy_document` `create_document_from_document` `add_document_payment` `add_document_comment` |
-| **Document Positions** | — | ✅ | `create_free_text_position` `create_service_position` `create_service_set_position` `create_text_position` `update_document_position` `delete_document_position` |
-| **Document Elements** | — | ✅ | `create_document_text_element` `update_document_text_element` `create_document_page_break` `create_document_table` `delete_document_element` |
-| **Reportings** | ✅ | ✅ | `list_reportings` `get_reporting` `create_reporting` `update_reporting` `delete_reporting` `change_reporting_task` |
-| **Working Times** | ✅ | ✅ | `list_working_times` `create_working_time` `get_running_working_time` `start_working_time` `stop_working_time` `update_running_working_time` |
-| **Users** | ✅ | — | `list_users` `get_user` |
-| **Companies** | ✅ | ✅ | `list_companies` `get_company` `create_company` `update_company` `delete_company` |
-| **Contact Persons** | ✅ | ✅ | `list_contact_persons` `get_contact_person` `create_contact_person` `update_contact_person` `delete_contact_person` |
+Organized by helloHQ module:
 
-**66 tools** total, covering the helloHQ v2 REST API.
+| Module | Category | Read | Write | Tools |
+|---|---|:---:|:---:|---|
+| **CRM** | Companies | ✅ | ✅ | `list_companies` `get_company` `create_company` `update_company` `delete_company` |
+| **CRM** | Contact Persons | ✅ | ✅ | `list_contact_persons` `get_contact_person` `create_contact_person` `update_contact_person` `delete_contact_person` |
+| **Projects** | Projects | ✅ | ✅ | `list_projects` `get_project` `get_project_members` `get_project_statuses` `create_project` `update_project` `delete_project` |
+| **Projects** | Tasks | ✅ | ✅ | `list_tasks` `get_project_tasks` `get_task_statuses` `create_task` `update_task` `set_task_status` `mark_task_done` `mark_task_open` |
+| **Time Tracking** | Reportings | ✅ | ✅ | `list_reportings` `get_reporting` `create_reporting` `update_reporting` `delete_reporting` `change_reporting_task` |
+| **Time Tracking** | Working Times | ✅ | ✅ | `list_working_times` `create_working_time` `get_running_working_time` `start_working_time` `stop_working_time` `update_running_working_time` |
+| **Finances** | Documents | ✅ | ✅ | `list_documents` `get_document` `get_document_positions` `get_document_elements` `get_document_comments` `get_document_statuses` `get_document_templates` `create_document` `update_document` `delete_document` `change_document_status` `change_document_template` `copy_document` `create_document_from_document` `add_document_payment` `add_document_comment` |
+| **Finances** | Document Positions | — | ✅ | `create_free_text_position` `create_service_position` `create_service_set_position` `create_text_position` `update_document_position` `delete_document_position` |
+| **Finances** | Document Elements | — | ✅ | `create_document_text_element` `update_document_text_element` `create_document_page_break` `create_document_table` `delete_document_element` |
+| **Finances** | Planned Revenues | ✅ | ✅ | `list_planned_revenues` `get_planned_revenue` `create_planned_revenue` `update_planned_revenue` `delete_planned_revenue` `change_planned_revenue_status` |
+| **Admin** | Users | ✅ | — | `list_users` `get_user` |
+
+**72 tools** total, covering the helloHQ v2 REST API.
 
 ---
 
@@ -287,6 +290,7 @@ src/
     ├── reportings.ts  # Reporting tools
     ├── working-times.ts # Working time tools
     ├── companies.ts   # Company & contact person tools
+    ├── planned-revenues.ts # Planned revenue tools
     └── users.ts       # User tools
 ```
 
