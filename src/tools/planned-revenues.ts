@@ -34,7 +34,7 @@ export function registerPlannedRevenueTools(server: McpServer, client: HelloHQCl
 
   server.tool(
     "create_planned_revenue",
-    "Create a new planned revenue (Planumsatz). Net/gross totals are calculated from positions added afterwards via create_free_text_position — pass the planned revenue id as documentEntityId and the Grid element id from orderedElements (see get_planned_revenue) as documentTableId. Note: the API may reject creation with 'Unexpected error' (server-side issue) — create the record in the helloHQ UI in that case; all other tools work on UI-created records.",
+    "Create a new planned revenue (Planumsatz). Net/gross totals are calculated from positions added afterwards via create_free_text_position — pass the planned revenue id as documentEntityId and the Grid element id from orderedElements (see get_planned_revenue) as documentTableId.",
     {
       companyId: z.number().describe("Company ID (required)"),
       documentType: z.enum(["PlannedRevenueStandard", "PlannedRevenueTimeAndMaterial"]).describe("Type of planned revenue: Standard (fixed positions) or TimeAndMaterial (billed by reported time)"),
